@@ -102,11 +102,102 @@ description: 관심 있는 분야에 어떤 서비스가 이미 있는지 조사
 | 어디서 막히고 짜증 나는지 | | ⭕ |
 
 **AI가 하는 것** — 후보 목록, 비교 기준, 검색으로 채울 수 있는 칸까지.
-**학생이 하는 것** — 직접 깔아서 나머지 칸 채우기. 이건 숙제로 남긴다.
+**학생이 하는 것** — 직접 깔아서 나머지 칸 채우기. 숙제로 남긴다.
 
 비교표의 모든 칸에 표시를 남긴다: `🔍 직접 확인` / `📄 검색으로만`
 
-`insane-research` 플러그인이 있으면 1단계 답을 질문으로 바꿔 넘기고, 원본 리포트를 `research/raw/` 에 **그대로 남긴다.** 없거나 학생이 "간단하게"라고 하면 웹 검색으로 진행하고 출처를 최소 다섯 개 확보한다.
+### 2-1. insane-research 가 있는지 먼저 확인한다
+
+`insane-research-main` 스킬을 쓸 수 있으면 그쪽으로 넘긴다. 여러 에이전트가 교차 검증까지 해 준다.
+
+**없으면** 학생에게 이렇게 안내한다. 조용히 검색으로 때우지 않는다.
+
+```
+깊이 있게 조사하려면 도구를 하나 더 설치해야 합니다. 두 줄이면 됩니다.
+
+  /plugin marketplace add https://github.com/fivetaku/gptaku_plugins.git
+  /plugin install insane-research
+
+설치 후 앱을 껐다 켜세요.
+
+지금 그냥 해 보고 싶으시면 "간단하게"라고 말씀하세요.
+웹 검색만으로 10분 안에 해 드립니다. 대신 깊이는 얕습니다.
+```
+
+### 2-2. 넘길 때는 "조사 설계서"를 만들어서 넘긴다
+
+**"자취생 밥 앱 조사해줘" 처럼 넘기지 않는다.** 1단계 답을 아래 형태로 바꿔
+`research/query.json` 에 저장하고, 그 내용으로 `insane-research-main` 을 호출한다.
+
+```json
+{
+  "task": {
+    "title": "자취 20대의 저녁 식사 관련 서비스 현황과 빈 자리",
+    "objective": "이미 나온 서비스들이 왜 자취 20대에게 자리 잡지 못했는지 밝히고, 아직 비어 있는 기회 영역 3개를 뽑는다",
+    "type": "exploratory"
+  },
+  "context": {
+    "background": "혼자 사는 20대 직장인은 퇴근이 늦어 저녁을 거르는 경우가 많다. 간편식과 배달 서비스가 늘었지만 이 집단에 특화된 서비스가 자리 잡았는지는 확인되지 않았다. 포트폴리오의 문제 정의 근거로 쓸 자료가 필요하다.",
+    "audience": "general",
+    "use_case": "UX/UI 포트폴리오의 리서치 페이지 작성과 문제 정의의 근거로 사용",
+    "prior_knowledge": ["배달의민족", "쿠팡이츠", "마켓컬리"]
+  },
+  "questions": {
+    "primary": "이미 나온 식사 관련 서비스들이 자취하는 20대에게 자리 잡지 못한 이유는 무엇인가",
+    "secondary": [
+      "이 집단을 겨냥한 서비스는 어떤 것들이 있고 각각 무엇을 내세우는가",
+      "요금 구조는 어떻게 되어 있는가",
+      "이용자들이 공개적으로 남긴 불만은 무엇인가"
+    ],
+    "exclusions": [
+      "직접 인터뷰해야만 알 수 있는 개인의 동기와 감정",
+      "실제 앱을 써 봐야 아는 사용 경험"
+    ]
+  },
+  "constraints": {
+    "timeframe": { "start": "2023", "end": "present", "focus_period": "최근 2년" },
+    "geography": { "scope": "national", "regions": ["대한민국"] },
+    "sources": {
+      "required_types": ["official_docs", "industry_reports", "news"],
+      "min_quality": "B",
+      "language": ["ko", "en"],
+      "preferred_domains": ["kostat.go.kr", "kdca.go.kr", "mfds.go.kr", "atfis.or.kr", "korea.kr"]
+    }
+  },
+  "output": {
+    "format": "comprehensive_report",
+    "length": { "min_words": 1500, "max_words": 5000 },
+    "structure": {
+      "include_executive_summary": true,
+      "include_bibliography": true,
+      "include_methodology": true
+    }
+  }
+}
+```
+
+**이 값들은 형식을 채우는 게 아니라 각각 사고를 하나씩 막는 장치다.** 반드시 채운다.
+
+| 넣는 값 | 이게 막는 사고 |
+|---|---|
+| `timeframe.start` 를 최근 3년으로 | 오래된 **전망치**가 현재 수치처럼 섞여 들어오는 것 |
+| `sources.language` 에 `"ko"` 추가 | **기본값이 영어라서** 국내 통계를 아예 못 찾는 것 |
+| `sources.min_quality: "B"` | 개인 블로그·커뮤니티 글이 근거로 올라오는 것 |
+| `sources.preferred_domains` 에 정부 통계 사이트 | 출처 등급이 뒤섞이는 것 |
+| `questions.exclusions` | 인터뷰로만 알 수 있는 것을 검색으로 답하려 드는 것 |
+
+`sources.language` 를 비우면 영어 자료만 찾는다. **국내 주제라면 반드시 `"ko"` 를 넣는다.**
+
+원본 리포트는 `research/raw/` 에 **그대로 남긴다.** 요약만 남기면 나중에 근거를 찾을 수 없다.
+
+### 2-3. 간단 모드 (폴백)
+
+insane-research 가 없거나 학생이 "간단하게"라고 하면 웹 검색으로 진행한다.
+출처를 최소 다섯 개 확보하고, 결과 맨 위에 적는다.
+
+> ⚠️ 이 조사는 간단 모드로 했습니다. 포트폴리오에 넣기 전에 출처를 직접 확인하세요.
+
+**시간이 오래 걸린다는 것을 미리 알린다.** 수업 중이라면 1단계까지만 하고 실행은 나중에 하라고 안내한다.
 
 ---
 
