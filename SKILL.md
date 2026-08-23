@@ -86,6 +86,26 @@ options:
 
 ---
 
+## 학생 컴퓨터가 윈도우일 수 있다 (명령 내기 전에 확인)
+
+**어떤 컴퓨터인지 먼저 확인하고 그에 맞는 명령만 준다.** 환경 정보에 있고, 없으면 `uname -s` 로 본다.
+맥 명령을 윈도우 학생에게 주면 오류만 보고 거기서 막힌다. 학생은 왜 안 되는지 모른다.
+
+| | 맥 · 리눅스 | 윈도우 (PowerShell) |
+|---|---|---|
+| 스킬 폴더 | `~/.claude/skills/` | `$env:USERPROFILE\.claude\skills\` |
+| 파일이 있나 | `test -f "경로"` | `Test-Path "경로"` |
+| 명령이 있나 | `command -v node` | `Get-Command node -ErrorAction SilentlyContinue` |
+| 스크립트 실행 | `bash 파일.sh` | `powershell -ExecutionPolicy Bypass -File 파일.ps1` |
+
+> ⚠️ **윈도우 학생에게 `~` 를 주지 않는다.** PowerShell 에서는 동작하지만
+> cmd 창에서는 `~` 라는 폴더가 새로 생겨서 엉뚱한 데 설치된다.
+>
+> ⚠️ **WSL 안의 `bash` 를 쓰지 않게 한다.** WSL 의 홈은 윈도우 홈과 달라서,
+> 거기 설치하면 Claude Code 가 스킬을 찾지 못한다.
+
+---
+
 ## 진행률 — 매 단계마다 반드시 출력한다
 
 학생은 조사가 얼마나 남았는지 모르면 창을 닫는다. **단계가 바뀔 때마다 아래 한 줄을 먼저 출력한다.**
@@ -214,9 +234,15 @@ options:
 > ⛔ **스킬 목록에 보이는지로 판단하지 않는다.** 방금 설치했거나 방금 지운 경우 목록 갱신이 늦어
 > 틀린 판단을 한다. **파일로 확인한다.**
 
+**맥 · 리눅스**
 ```bash
 test -f ~/.claude/skills/insane-research-main/SKILL.md && echo OK || echo MISSING
 ```
+**윈도우 (PowerShell)**
+```
+Test-Path "$env:USERPROFILE\.claude\skills\insane-research-main\SKILL.md"
+```
+(`True` 면 OK, `False` 면 MISSING)
 
 - **`OK`** → `insane-research-main` 스킬을 호출해 조사한다. 여러 조사원이 나눠 찾고 서로 검증한다.
 - **`MISSING`** → 아래 안내를 출력하고 **멈춘다.** 학생이 설치하거나 "간단하게"라고 할 때까지 진행하지 않는다.
@@ -231,7 +257,9 @@ test -f ~/.claude/skills/insane-research-main/SKILL.md && echo OK || echo MISSIN
 
 터미널(검은 창)에 아래를 붙여넣고 엔터를 치세요.
 
-  bash ~/.claude/skills/portfolio-research/install-research-engine.sh
+  [맥]     bash ~/.claude/skills/portfolio-research/install-research-engine.sh
+
+  [윈도우] powershell -ExecutionPolicy Bypass -File "$env:USERPROFILE\.claude\skills\portfolio-research\install-research-engine.ps1"
 
 1~2분 걸립니다. 끝나면 Claude Code를 껐다 켜 주세요.
 
