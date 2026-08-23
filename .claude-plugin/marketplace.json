@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "portfolio-research",
+  "description": "포트폴리오 1회차 — AI 데스크 리서치. 시장 조사와 유사 서비스 분석을 포트폴리오용 3파일로 변환한다.",
+  "owner": {
+    "name": "soodiumstudio"
+  },
+  "plugins": [
+    {
+      "name": "portfolio-research",
+      "description": "포트폴리오 1회차 — AI 데스크 리서치. 시장 조사와 유사 서비스 분석을 포트폴리오용 3파일로 변환한다.",
+      "source": "./plugins/portfolio-research",
+      "category": "design",
+      "homepage": "https://github.com/soodiumstudio/portfolio-research"
+    }
+  ]
+}
