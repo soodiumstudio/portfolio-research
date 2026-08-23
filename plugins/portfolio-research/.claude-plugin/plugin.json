@@ -1,7 +1,7 @@
 {
   "name": "portfolio-research",
-  "description": "포트폴리오 1회차 — AI 데스크 리서치. 시장 조사와 유사 서비스 분석을 포트폴리오용 3파일로 변환한다.",
-  "version": "0.1.0",
+  "description": "관심 있는 분야에 어떤 서비스가 이미 있는지 조사한다.",
+  "version": "0.2.0",
   "author": {
     "name": "soodiumstudio"
   }
