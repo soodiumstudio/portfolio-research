@@ -295,7 +295,7 @@ Test-Path "$env:USERPROFILE\.claude\skills\insane-research-main\SKILL.md"
 {
   "task": {
     "title": "자취 20대의 저녁 식사 관련 서비스 현황과 빈 자리",
-    "objective": "이미 나온 서비스들이 왜 자취 20대에게 자리 잡지 못했는지 밝히고, 아직 비어 있는 기회 영역 3개를 뽑는다",
+    "objective": "이미 나온 서비스들이 왜 자취 20대에게 자리 잡지 못했는지 밝힌다",
     "type": "exploratory"
   },
   "context": {
