@@ -6,17 +6,20 @@
 
 ## 설치
 
-```bash
+> ⚠️ 아래 명령은 **Claude Code 입력창**에 입력하세요. 터미널(zsh)에 붙여넣으면
+> `zsh: no such file or directory: /plugin` 오류가 납니다. 슬래시 명령은 셸 명령이 아닙니다.
+
+```
 /plugin marketplace add https://github.com/soodiumstudio/portfolio-research.git
 ```
 
-```bash
+```
 /plugin install portfolio-research
 ```
 
 ## 사용
 
-```bash
+```
 /portfolio-research
 ```
 
@@ -27,11 +30,11 @@
 깊이 있는 조사를 하려면 [insane-research](https://github.com/fivetaku/insane-research)를 함께 설치하세요.
 여러 에이전트가 교차 검증까지 해 줍니다.
 
-```bash
+```
 /plugin marketplace add https://github.com/fivetaku/gptaku_plugins.git
 ```
 
-```bash
+```
 /plugin install insane-research
 ```
 

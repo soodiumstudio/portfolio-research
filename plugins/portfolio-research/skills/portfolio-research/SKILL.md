@@ -118,6 +118,9 @@ description: 관심 있는 분야에 어떤 서비스가 이미 있는지 조사
   /plugin marketplace add https://github.com/fivetaku/gptaku_plugins.git
   /plugin install insane-research
 
+⚠️ 지금 이 채팅창에 그대로 입력하세요. 터미널(검은 창)이 아닙니다.
+   터미널에 붙여넣으면 "no such file or directory" 오류가 납니다.
+
 설치 후 앱을 껐다 켜세요.
 
 지금 그냥 해 보고 싶으시면 "간단하게"라고 말씀하세요.
