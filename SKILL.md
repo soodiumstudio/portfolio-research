@@ -216,19 +216,23 @@ options:
 **없으면** 학생에게 이렇게 안내한다. 조용히 검색으로 때우지 않는다.
 
 ```
-깊이 있게 조사하려면 도구를 하나 더 설치해야 합니다. 두 줄이면 됩니다.
+깊이 있게 조사하는 엔진이 아직 설치되지 않았네요. 한 줄이면 됩니다.
 
-  /plugin marketplace add https://github.com/fivetaku/gptaku_plugins.git
-  /plugin install insane-research
+터미널(검은 창)에 아래를 붙여넣고 엔터를 치세요.
 
-⚠️ 지금 이 채팅창에 그대로 입력하세요. 터미널(검은 창)이 아닙니다.
-   터미널에 붙여넣으면 "no such file or directory" 오류가 납니다.
+  bash ~/.claude/skills/portfolio-research/install-research-engine.sh
 
-설치 후 앱을 껐다 켜세요.
+1~2분 걸립니다. 끝나면 Claude Code를 껐다 켜 주세요.
 
 지금 그냥 해 보고 싶으시면 "간단하게"라고 말씀하세요.
 웹 검색만으로 10분 안에 해 드립니다. 대신 깊이는 얕습니다.
 ```
+
+> 이건 **터미널** 명령이다. 앞의 준비물 안내와 달리 채팅창이 아니다.
+> 학생이 헷갈리므로 "검은 창"이라고 분명히 말해 준다.
+
+**설치가 끝났다고 하면** 스킬 목록에 `insane-research-main` 이 보이는지 확인하고 진행한다.
+안 보이면 앱을 껐다 켰는지 다시 묻는다.
 
 ### 2-2. 넘길 때는 "조사 설계서"를 만들어서 넘긴다
 
